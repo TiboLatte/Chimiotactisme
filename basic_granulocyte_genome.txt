@@ -1,0 +1,7 @@
+#BASIC GENOME FOR GRANULOCYTE CELL
+#COLOR
+000000000
+#RADIUS
+0
+#ANTIBODY SEQUENCE
+----------------------------------------------------------------

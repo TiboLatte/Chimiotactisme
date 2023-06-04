@@ -1,0 +1,7 @@
+#BASIC GENOME FOR INFLAMMATORY CELL
+#COLOR
+000000000
+#RADIUS
+0
+#ANTIGEN SEQUENCE
+----------------------------------------------------------------

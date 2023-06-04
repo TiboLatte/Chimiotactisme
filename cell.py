@@ -12,7 +12,7 @@ class Cell:
         self.HEIGHT = 720
         self.radius = random.randint(10, 30)
         self.ID = random.randint(0, 1000)
-       
+        self.genome = None
         #Calculate the valid range for x and y positions, 0 is for readability
         x_min = 0 + self.radius *2 + self.radius
         x_max = self.WIDTH - self.radius * 2 - self.radius
@@ -22,8 +22,7 @@ class Cell:
         self.x = random.uniform(x_min, x_max)
         self.y = random.uniform(y_min, y_max)
 
-        print(self.x, self.y)
-        print(x_min, x_max, y_min,y_max)
+      
         self.prevX = self.x
         self.prevY = self.y
         self.dx = 0
@@ -55,13 +54,15 @@ class Cell:
             self.secrete = "none"
         self.draw(screen)
 
-
+    def linkGenome(self, genome):
+        self.genome = genome
+        print("[INFO] : Linking Genome for cell %s" % self.name)
     def getName(self):
         with codecs.open("names.txt", mode="r+", encoding = "utf-8") as f:
             lines = f.readlines()
             name = random.choice(lines)
             name = name[:len(name)-2]
-            print(name)
+            
             return name
 
     def move(self, pheromones, cells):

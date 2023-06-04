@@ -2,7 +2,7 @@ import pygame
 from cell import Cell
 import random
 import math
-
+from genome import Genome
 pygame.init()
 
 WIDTH = 1080
@@ -58,6 +58,9 @@ def drawMessage(message):
         screen.blit(text_surface, (MESSAGE_BOX_POSITION[0], text_y))
         text_y += line_height
 
+def handleGenomeInitialization(cells):
+    print("Genome initialization")
+
 
 ## initialize pygame and create window
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -80,23 +83,26 @@ while run:
             pygame.quit()
 
         if event.type == pygame.KEYUP:
-            print(len(CELL_LIST))
             if event.key == pygame.K_i:
                 cellUnit = Cell(type="inflammatory", screen=screen)
                 CELL_LIST.append(cellUnit)
+                cellUnitGenome = Genome(cellUnit)
+                cellUnit.linkGenome(cellUnitGenome)
             if event.key == pygame.K_m:
                 cellUnit = Cell(type="mastocyte", screen=screen)
                 CELL_LIST.append(cellUnit)
-
+                cellUnitGenome = Genome(cellUnit)
+                cellUnit.linkGenome(cellUnitGenome)
             if event.key == pygame.K_g:
                 cellUnit = Cell(type="granulocyte", screen=screen)
                 print(cellUnit.attracted)
                 CELL_LIST.append(cellUnit)
+                cellUnitGenome = Genome(cellUnit)
+                cellUnit.linkGenome(cellUnitGenome)
             if event.key == pygame.K_RIGHT:
                 
                 if selectedCellIndex < len(CELL_LIST):
                     selectedCellIndex += 1
-                    print(selectedCellIndex)
                     if prevSelectedCell > 0:
                         CELL_LIST[prevSelectedCell - 1].setColor(screen)  # Reset the color of the previously clicked cell
                     CELL_LIST[selectedCellIndex - 1].setColor(screen)  # Set the color of the newly clicked cell
@@ -111,7 +117,6 @@ while run:
                 
                 if selectedCellIndex > 0:
                     selectedCellIndex -= 1
-                    print(selectedCellIndex)
                     if prevSelectedCell > 0:
                         CELL_LIST[prevSelectedCell - 1].setColor(screen)  # Reset the color of the previously clicked cell
                     CELL_LIST[selectedCellIndex - 1].setColor(screen)  # Set the color of the newly clicked cell
@@ -120,7 +125,13 @@ while run:
                     message = CELL_LIST[selectedCellIndex - 1].name + "\n Genome: 0002210"
                     CELL_LIST[selectedCellIndex - 1].color = (255, 120, 10)
                 if selectedCellIndex < 0:
-                    selectedCellIndex = len(CELL_LIST) - 1          
+                    selectedCellIndex = len(CELL_LIST) - 1  
+            if event.key == pygame.K_n: #LINK GENOME
+                CELL_LIST[selectedCellIndex - 1].genome.linkGenome()
+            if event.key == pygame.K_r:
+                print("Genome for " + CELL_LIST[selectedCellIndex - 1].name)
+                print(CELL_LIST[selectedCellIndex - 1].genome.genesList)
+
 
 
                 
