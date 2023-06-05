@@ -58,8 +58,8 @@ def drawMessage(message):
         screen.blit(text_surface, (MESSAGE_BOX_POSITION[0], text_y))
         text_y += line_height
 
-def handleGenomeInitialization(cells):
-    print("Genome initialization")
+
+
 
 
 ## initialize pygame and create window
@@ -88,17 +88,26 @@ while run:
                 CELL_LIST.append(cellUnit)
                 cellUnitGenome = Genome(cellUnit)
                 cellUnit.linkGenome(cellUnitGenome)
+                cellUnit.genome.initialize()
+                cellUnit.genome.reloadGenome()
+
             if event.key == pygame.K_m:
                 cellUnit = Cell(type="mastocyte", screen=screen)
                 CELL_LIST.append(cellUnit)
                 cellUnitGenome = Genome(cellUnit)
                 cellUnit.linkGenome(cellUnitGenome)
+                cellUnit.genome.initialize()
+                cellUnit.genome.reloadGenome()
+
             if event.key == pygame.K_g:
                 cellUnit = Cell(type="granulocyte", screen=screen)
                 print(cellUnit.attracted)
                 CELL_LIST.append(cellUnit)
                 cellUnitGenome = Genome(cellUnit)
                 cellUnit.linkGenome(cellUnitGenome)
+                cellUnit.genome.initialize()
+                cellUnit.genome.reloadGenome()
+
             if event.key == pygame.K_RIGHT:
                 
                 if selectedCellIndex < len(CELL_LIST):

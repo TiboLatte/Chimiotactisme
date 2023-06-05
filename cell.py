@@ -3,6 +3,8 @@ import math
 import pygame
 import Pheromone
 import codecs
+import random
+import string
 
 class Cell:
 
@@ -13,6 +15,7 @@ class Cell:
         self.radius = random.randint(10, 30)
         self.ID = random.randint(0, 1000)
         self.genome = None
+        self.agac = ''.join(random.choice(string.ascii_lowercase) for _ in range(20))
         #Calculate the valid range for x and y positions, 0 is for readability
         x_min = 0 + self.radius *2 + self.radius
         x_max = self.WIDTH - self.radius * 2 - self.radius

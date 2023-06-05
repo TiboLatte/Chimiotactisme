@@ -25,7 +25,7 @@ class Genome:
             genome_file.write(file1_content + existing_content)
 
 
-    def linkGenome(self):
+    def linkBasicGenome(self):
         filepath = "genomes/" + self.cell.name.replace(" ", "") + "_" + self.cell.type + "_genome.txt"
         with open(filepath, "r") as f:
             genome = f.readlines()
@@ -38,4 +38,33 @@ class Genome:
                 else:
                     print("Linking gene : " + gene[1:])
 
-    
+    def updateGene(self, geneIndex, value):
+        filepath = "genomes/" + self.cell.name.replace(" ", "") + "_" + self.cell.type + "_genome.txt"
+
+        # Read the contents of the genome file and store them in a list
+        with open(filepath, "r") as f:
+            genome = f.readlines()
+
+        # Modify the desired gene value
+        currentGeneIndex = -1
+        for i, line in enumerate(genome):
+            if not line.startswith("#"):
+                currentGeneIndex += 1
+                if currentGeneIndex == geneIndex:
+                    genome[i] = str(value) + "\n"
+
+        # Write the modified data back to the genome file, excluding the lines starting with "#"
+        with open(filepath, "w") as f:
+            f.writelines(genome)
+
+    def reloadGenome(self):
+        self.genesList = []
+        self.linkBasicGenome()
+    def initialize(self):
+        self.linkBasicGenome() #should be called if i want it to be initialized automatically.
+
+        color = "" + str(self.cell.color[0]) + str(self.cell.color[1]) + str(self.cell.color[2])
+
+        self.updateGene(0, color) #SET COLOR
+        self.updateGene(1, self.cell.radius) #SET RADIUS
+        self.updateGene(2, self.cell.agac) #SET AG OR AC
