@@ -60,10 +60,31 @@ class Genome:
     def reloadGenome(self):
         self.genesList = []
         self.linkBasicGenome()
+
+    def synchroniseObjectAndGenome(self):
+        self.reloadGenome()
+        self.cell.radius = self.genesList[1]
+        tempColor = str(self.genesList[0])
+        self.cell.color = (int(tempColor[:3]), int(tempColor[3:6]), int(tempColor[6:]))
+        self.cell.agac = self.genesList[2]
+      
+
     def initialize(self):
         self.linkBasicGenome() #should be called if i want it to be initialized automatically.
-
-        color = "" + str(self.cell.color[0]) + str(self.cell.color[1]) + str(self.cell.color[2])
+        if self.cell.color[0] == 0:
+            red = "000"
+        else:
+            red = self.cell.color[0]
+        if self.cell.color[1] == 0:
+            green = "000"
+        else:
+            green = self.cell.color[1]
+        if self.cell.color[2] == 0:
+            blue = "000"
+        else:
+            blue = self.cell.color[2]
+        
+        color = "" + str(red) + str(green) + str(blue)
 
         self.updateGene(0, color) #SET COLOR
         self.updateGene(1, self.cell.radius) #SET RADIUS

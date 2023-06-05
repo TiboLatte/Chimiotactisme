@@ -7,9 +7,9 @@ pygame.init()
 
 WIDTH = 1080
 HEIGHT = 900
-FPS = 30    
+FPS = 30
 
-# Define Colors 
+# Define Colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
@@ -44,13 +44,16 @@ def drawMessage(message):
     bg_surface.set_alpha(128)  # Semi-transparent
 
     # Calculate the y-position to vertically center the text within the message box
-    text_y = MESSAGE_BOX_POSITION[1] + (MESSAGE_BOX_HEIGHT - text_height -40) // 2
+    text_y = MESSAGE_BOX_POSITION[1] + \
+        (MESSAGE_BOX_HEIGHT - text_height - 40) // 2
 
     # Blit the background surface onto the screen
-    screen.blit(bg_surface, (MESSAGE_BOX_POSITION[0] - MESSAGE_BOX_PADDING, MESSAGE_BOX_POSITION[1] - MESSAGE_BOX_PADDING))
+    screen.blit(
+        bg_surface, (MESSAGE_BOX_POSITION[0] - MESSAGE_BOX_PADDING, MESSAGE_BOX_POSITION[1] - MESSAGE_BOX_PADDING))
 
     # Draw the box border
-    pygame.draw.rect(screen, BLACK, (MESSAGE_BOX_POSITION[0] - MESSAGE_BOX_PADDING, MESSAGE_BOX_POSITION[1] - MESSAGE_BOX_PADDING, MESSAGE_BOX_WIDTH, MESSAGE_BOX_HEIGHT), 2)
+    pygame.draw.rect(screen, BLACK, (MESSAGE_BOX_POSITION[0] - MESSAGE_BOX_PADDING,
+                     MESSAGE_BOX_POSITION[1] - MESSAGE_BOX_PADDING, MESSAGE_BOX_WIDTH, MESSAGE_BOX_HEIGHT), 2)
 
     # Render and blit each line of text onto the screen
     for line in lines:
@@ -59,13 +62,10 @@ def drawMessage(message):
         text_y += line_height
 
 
-
-
-
-## initialize pygame and create window
+# initialize pygame and create window
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Chimiotactisme")
-clock = pygame.time.Clock()     ## For syncing the FPS
+clock = pygame.time.Clock()  # For syncing the FPS
 run = True
 prevSelectedCell = 0
 selectedCellIndex = 0
@@ -73,9 +73,8 @@ selectedCellIndex = 0
 
 while run:
     # Process input/events
-    clock.tick(FPS)     ## will make the loop run at the same speed all the time
-    keys = pygame.key.get_pressed()          
-
+    clock.tick(FPS)  # will make the loop run at the same speed all the time
+    keys = pygame.key.get_pressed()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -109,41 +108,44 @@ while run:
                 cellUnit.genome.reloadGenome()
 
             if event.key == pygame.K_RIGHT:
-                
+
                 if selectedCellIndex < len(CELL_LIST):
                     selectedCellIndex += 1
                     if prevSelectedCell > 0:
-                        CELL_LIST[prevSelectedCell - 1].setColor(screen)  # Reset the color of the previously clicked cell
-                    CELL_LIST[selectedCellIndex - 1].setColor(screen)  # Set the color of the newly clicked cell
+                        # Reset the color of the previously clicked cell
+                        CELL_LIST[prevSelectedCell - 1].setColor(screen)
+                    # Set the color of the newly clicked cell
+                    CELL_LIST[selectedCellIndex - 1].setColor(screen)
                     prevSelectedCell = selectedCellIndex  # Update the previously clicked cell
                     display_message = True
-                    message = CELL_LIST[selectedCellIndex - 1].name + "\n Genome: 0002210" + "\n Index : " + str(selectedCellIndex)
+                    message = CELL_LIST[selectedCellIndex - 1].name + "\n Genome: " + str(CELL_LIST[selectedCellIndex - 1].genome.genesList[0]) + "\n" + str(
+                        CELL_LIST[selectedCellIndex - 1].genome.genesList[1]) + "\n" + str(CELL_LIST[selectedCellIndex - 1].genome.genesList[2]) + "\n" + "\n Index : " + str(selectedCellIndex)
                     CELL_LIST[selectedCellIndex - 1].color = (255, 120, 10)
                 if selectedCellIndex > len(CELL_LIST):
                     selectedCellIndex = 0
 
             if event.key == pygame.K_LEFT:
-                
+
                 if selectedCellIndex > 0:
                     selectedCellIndex -= 1
                     if prevSelectedCell > 0:
-                        CELL_LIST[prevSelectedCell - 1].setColor(screen)  # Reset the color of the previously clicked cell
-                    CELL_LIST[selectedCellIndex - 1].setColor(screen)  # Set the color of the newly clicked cell
+                        # Reset the color of the previously clicked cell
+                        CELL_LIST[prevSelectedCell - 1].setColor(screen)
+                    # Set the color of the newly clicked cell
+                    CELL_LIST[selectedCellIndex - 1].setColor(screen)
                     prevSelectedCell = selectedCellIndex  # Update the previously clicked cell
                     display_message = True
-                    message = CELL_LIST[selectedCellIndex - 1].name + "\n Genome: 0002210"
+                    message = CELL_LIST[selectedCellIndex -
+                                        1].name + "\n Genome: 0002210"
                     CELL_LIST[selectedCellIndex - 1].color = (255, 120, 10)
                 if selectedCellIndex < 0:
-                    selectedCellIndex = len(CELL_LIST) - 1  
-            if event.key == pygame.K_n: #LINK GENOME
-                CELL_LIST[selectedCellIndex - 1].genome.linkGenome()
+                    selectedCellIndex = len(CELL_LIST) - 1
+            if event.key == pygame.K_n:  # LINK GENOME
+                CELL_LIST[selectedCellIndex - 1].genome.synchroniseObjectAndGenome()
+                
             if event.key == pygame.K_r:
                 print("Genome for " + CELL_LIST[selectedCellIndex - 1].name)
                 print(CELL_LIST[selectedCellIndex - 1].genome.genesList)
-
-
-
-                
 
     screen.fill(WHITE)
     if display_message:
